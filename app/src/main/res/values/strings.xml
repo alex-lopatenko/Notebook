@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Notebook Java</string>
+    <string name="text_empty">Заголовок или содержание не заполненно!!!</string>
+    <string name="saved">Сохранено!!!</string>
 </resources>

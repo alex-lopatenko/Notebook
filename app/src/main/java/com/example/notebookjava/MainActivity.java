@@ -4,14 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
 import com.example.notebookjava.adapter.MainAdapter;
+import com.example.notebookjava.db.MyDbManager;
 
 public class MainActivity extends AppCompatActivity {
-    private myDbManager myDbManager;
+    private MyDbManager myDbManager;
     private EditText edTitle, edDesc;
     private RecyclerView rcView;
     private MainAdapter mainAdapter;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        myDbManager = new myDbManager(this);
+        myDbManager = new MyDbManager(this);
         edTitle = findViewById(R.id.edTitle);
         edDesc = findViewById(R.id.edDesc);
         rcView = findViewById(R.id.rcView);
@@ -40,8 +42,14 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter.updateAdapter(myDbManager.getFromDb());
     }
 
-    public void onClickSave(View view) {
-        myDbManager.insertToDb("Test", "Test");
-        mainAdapter.updateAdapter(myDbManager.getFromDb());
+    public void onClickAdd(View view) {
+        Intent i = new Intent(MainActivity.this, EditActivity.class);
+        startActivity(i);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        myDbManager.closeDb();
     }
 }
