@@ -12,6 +12,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.notebookjava.adapter.ListItem;
+import com.example.notebookjava.db.MyConstants;
 import com.example.notebookjava.db.MyDbManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -24,6 +26,7 @@ public class EditActivity extends AppCompatActivity {
     private EditActivity edTitle, edDesc;
     private myDbManager myDbManager;
     private String tempUri = "empty";
+    private boolean isEditState = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,20 @@ public class EditActivity extends AppCompatActivity {
         imageContainer = findViewById(R.id.imageContainer);
         myDbManager = new MyDbManager(this);
     }
+
+    private void getMyIntents() {
+        Intent i = getIntent();
+        if (i != null) {
+            ListItem item = (ListItem)i.getSerializableExtra(MyConstants.LIST_ITEM_INTENT);
+            isEditState = i.getBooleanExtra(MyConstants.EDIT_STATE, true);
+
+            if (!isEditState) {
+                edTitle.setText(item.getTitle());
+                edDesc.setText(item.getDesc());
+            }
+        }
+    }
+
     public void onClickSave(View view) {
 
         String title = edTitle.getText().toString();

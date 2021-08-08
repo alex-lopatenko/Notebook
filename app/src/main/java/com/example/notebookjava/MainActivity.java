@@ -6,8 +6,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.SearchView;
 
 import com.example.notebookjava.adapter.MainAdapter;
 import com.example.notebookjava.db.MyDbManager;
@@ -25,6 +29,27 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem item = menu.findItem(R.id.id_search);
+        SearchView search_view = (SearchView)item.getActionView();
+        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mainAdapter.updateAdapter(myDbManager.getFromDb(newText));
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
     private void init() {
         myDbManager = new MyDbManager(this);
         edTitle = findViewById(R.id.edTitle);
@@ -39,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         myDbManager.openDb();
-        mainAdapter.updateAdapter(myDbManager.getFromDb());
+        mainAdapter.updateAdapter(myDbManager.getFromDb(""));
     }
 
     public void onClickAdd(View view) {

@@ -19,7 +19,7 @@ public class MyDbManager {
         this.context = context;
         myDbHelper = new MyDbHelper(context);
     }
-    public void openDb(){
+    public void openDb() {
         db = myDbHelper.getWritableDatabase();
     }
 
@@ -27,7 +27,7 @@ public class MyDbManager {
 
         ContentValues cv = new ContentValues();
         cv.put(MyConstants.TITLE, title);
-        cv.put(MyConstants.DISC, disc);
+        cv.put(MyConstants.DESC, disc);
         cv.put(MyConstants.URI, uri);
         db.insert(MyConstants.TABLE_NAME, null, cv);
 
@@ -36,7 +36,7 @@ public class MyDbManager {
         String selection = MyConstants._ID + "=" + id;
         ContentValues cv = new ContentValues();
         cv.put(MyConstants.TITLE, title);
-        cv.put(MyConstants.DISC, disc);
+        cv.put(MyConstants.DESC, disc);
         cv.put(MyConstants.URI, uri);
         db.update(MyConstants.TABLE_NAME,cv,selection, null);
     }
@@ -55,7 +55,7 @@ public class MyDbManager {
         while (cursor.moveToNext()) {
             LauncherActivity.ListItem item = new LauncherActivity.ListItem();
             String title = cursor.getString(cursor.getColumnIndex(MyConstants.TITLE));
-            String desc = cursor.getString(cursor.getColumnIndex(MyConstants.DISC));
+            String desc = cursor.getString(cursor.getColumnIndex(MyConstants.DESC));
             String uri = cursor.getString(cursor.getColumnIndex(MyConstants.URI));
             int _id = cursor.getInt(cursor.getColumnIndex(MyConstants._ID));
             item.setTitle(title);
