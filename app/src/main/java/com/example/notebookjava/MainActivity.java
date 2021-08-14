@@ -15,37 +15,45 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.SearchView;
 
+import com.example.notebookjava.adapter.ListItem;
 import com.example.notebookjava.adapter.MainAdapter;
+import com.example.notebookjava.db.AppExecuter;
 import com.example.notebookjava.db.MyDbManager;
+import com.example.notebookjava.db.OnDataReceived;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements OnDataReceived {
     private MyDbManager myDbManager;
-    private EditText edTitle, edDesc;
+    private EditText edTitle, edDisc;
     private RecyclerView rcView;
-    private MainAdapter mainAdapter;
+    private MainAdapter  mainAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        MenuItem item = menu.findItem(R.id.id_search);
-        SearchView search_view = (SearchView)item.getActionView();
-        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        MenuItem item= menu.findItem(R.id.id_search);
+        SearchView sv = (SearchView)item.getActionView();
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                mainAdapter.updateAdapter(myDbManager.getFromDb(newText));
+            public boolean onQueryTextChange(final String newText) {
+
+                readFromDb(newText);
+
                 return false;
             }
         });
@@ -53,9 +61,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+
         myDbManager = new MyDbManager(this);
         edTitle = findViewById(R.id.edTitle);
-        edDesc = findViewById(R.id.edDesc);
+        edDisc = findViewById(R.id.edDesc);
         rcView = findViewById(R.id.rcView);
         mainAdapter = new MainAdapter(this);
         rcView.setLayoutManager(new LinearLayoutManager(this));
@@ -68,10 +77,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         myDbManager.openDb();
-        mainAdapter.updateAdapter(myDbManager.getFromDb(""));
+        readFromDb("");
+
     }
 
     public void onClickAdd(View view) {
+
         Intent i = new Intent(MainActivity.this, EditActivity.class);
         startActivity(i);
     }
@@ -82,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
         myDbManager.closeDb();
     }
 
-    private ItemTouchHelper getItemTouchHelper() {
-        return new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+    private ItemTouchHelper getItemTouchHelper(){
+        return new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -92,6 +103,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 mainAdapter.removeItem(viewHolder.getAdapterPosition(), myDbManager);
+            }
+        });
+    }
+
+    private void readFromDb(final String text){
+
+        AppExecuter.getInstance().getSubIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                myDbManager.getFromDb(text, MainActivity.this);
+            }
+        });
+
+    }
+
+    @Override
+    public void onReceived(final List<ListItem> list) {
+
+        AppExecuter.getInstance().getMainIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mainAdapter.updateAdapter(list);
             }
         });
     }

@@ -23,6 +23,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
     private Context context;
     private List<ListItem> mainArray;
 
+
     public MainAdapter(Context context) {
         this.context = context;
         mainArray = new ArrayList<>();
@@ -56,29 +57,37 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
             this.mainArray = mainArray;
             tvTitle = itemView.findViewById(R.id.tvTitle);
             itemView.setOnClickListener(this);
+
         }
-        public void setData(String title) {
+        public void setData(String title){
             tvTitle.setText(title);
         }
 
         @Override
         public void onClick(View v) {
+
             Intent i = new Intent(context, EditActivity.class);
             i.putExtra(MyConstants.LIST_ITEM_INTENT, mainArray.get(getAdapterPosition()));
             i.putExtra(MyConstants.EDIT_STATE, false);
             context.startActivity(i);
+
+
         }
     }
-    public void updateAdapter(List<ListItem> newList) {
+    public void updateAdapter(List<ListItem> newList){
+
         mainArray.clear();
         mainArray.addAll(newList);
         notifyDataSetChanged();
     }
 
-    public void removeItem(int pos, MyDbManager dbManager) {
+    public void removeItem(int pos, MyDbManager dbManager){
         dbManager.delete(mainArray.get(pos).getId());
         mainArray.remove(pos);
         notifyItemRangeChanged(0, mainArray.size());
         notifyItemRemoved(pos);
+
+
     }
+
 }
