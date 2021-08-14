@@ -23,7 +23,7 @@ public class MyDbManager {
         db = myDbHelper.getWritableDatabase();
     }
 
-    public void insertToDb(String title, String disc, String uri){
+    public void insertToDb(String title, String disc, String uri) {
 
         ContentValues cv = new ContentValues();
         cv.put(MyConstants.TITLE, title);
@@ -42,7 +42,7 @@ public class MyDbManager {
     }
     public void delete(int id){
         String selection = MyConstants._ID + "=" + id;
-        db.delete(MyConstants.TABLE_NAME,selection, null);
+        db.delete(MyConstants.TABLE_NAME, selection, null);
     }
 
     public void getFromDb(String searchText, OnDataReceived onDataReceived) {
