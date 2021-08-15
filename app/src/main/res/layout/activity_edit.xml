@@ -79,14 +79,15 @@
         android:layout_marginBottom="8dp"
         android:background="@android:drawable/editbox_background"
         android:ems="10"
+        android:gravity="top"
         android:hint="Description"
         android:inputType="textMultiLine|textPersonName"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/edTitle"
+        app:layout_constraintEnd_toEndOf="@+id/edTitle"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/edTitle"
-        app:layout_constraintTop_toBottomOf="@id/edTitle" />
+        app:layout_constraintStart_toStartOf="@+id/edTitle"
+        app:layout_constraintTop_toBottomOf="@+id/edTitle" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
