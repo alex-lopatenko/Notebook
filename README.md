@@ -8,8 +8,8 @@ Description: Take notes anywhere, anytime using the Notebook App.
 <br/>
 <br/>
 
-![alt text](https://github.com/alex-lopatenko/Notebook/blob/master/prew-1.jpg)
-![alt text](https://github.com/alex-lopatenko/Notebook/blob/master/prew-2.jpg)
-![alt text](https://github.com/alex-lopatenko/Notebook/blob/master/prew-3.jpg)
-![alt text](https://github.com/alex-lopatenko/Notebook/blob/master/prew-4.jpg)
-![alt text](https://github.com/alex-lopatenko/Notebook/blob/master/prew-5.jpg)
+![alt text](https://github.com/alex-lopatenko/Notebook/blob/main/preview-1.jpg)
+![alt text](https://github.com/alex-lopatenko/Notebook/blob/main/preview-2.jpg)
+![alt text](https://github.com/alex-lopatenko/Notebook/blob/main/preview-3.jpg)
+![alt text](https://github.com/alex-lopatenko/Notebook/blob/main/preview-4.jpg)
+![alt text](https://github.com/alex-lopatenko/Notebook/blob/main/preview-5.jpg)
